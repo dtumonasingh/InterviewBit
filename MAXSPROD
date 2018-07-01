@@ -1,0 +1,61 @@
+void LeftLargest(vector<int> A, vector<long long int>& Left)
+{
+ stack<long long int> s;
+    s.push(A.size()-1);
+    for(long long int i=A.size()-2;i>=0;i--)
+    {
+      while(!s.empty()&&A[i]>A[s.top()])
+      {
+          Left[s.top()]=i;
+          s.pop();
+      }
+      
+      s.push(i);
+    }
+    while(!s.empty())
+    {
+        Left[s.top()]==0;
+        s.pop();
+    }   
+    
+}
+
+void RightLargest(vector<int> A, vector<long long int>& Right)
+{
+   stack<long long int> s;
+    s.push(0);
+    for(long long int i=1;i<A.size();i++)
+    {
+      while(!s.empty()&&A[i]>A[s.top()])
+      {
+          Right[s.top()]=i;
+          s.pop();
+      }
+      
+      s.push(i);
+    }
+    while(!s.empty())
+    {
+        Right[s.top()]==0;
+    s.pop();
+    }
+}
+
+int Solution::maxSpecialProduct(vector<int> &A) {
+    vector<long long int> Left(A.size());
+    vector<long long int> Right(A.size());
+    LeftLargest(A,Left);
+    RightLargest(A,Right);
+    long  long prod=1, globProd=INT_MIN;
+    for(long long int i=0;i<Left.size();i++)
+    {
+        prod=(Left[i]%1000000007*1LL*Right[i]%1000000007)%1000000007;
+        if(prod>globProd)
+        {
+            globProd=prod;
+        }
+    }
+    return globProd%1000000007;
+    // return 0;
+}
+
